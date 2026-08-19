@@ -1,0 +1,297 @@
+
+/* ==========================================================================
+   BLOCO DA NAVBAR E TOP BAR REAPLICADO CORRETAMENTE
+   ========================================================================== */
+.nav-container-block {
+    width: 100%;
+    background-color: #ffffff; /* Ou a cor padrão de fundo da sua navbar */
+    position: relative;
+    z-index: 1000;
+}
+
+.top-bar {
+    height: 6px;
+    width: 100%;
+    display: flex;
+}
+.bar-green  { flex: 1; background-color: #d4af37; }
+.bar-yellow { flex: 1; background-color: #d4af37; }
+.bar-blue   { flex: 1; background-color: #d4af37; }
+.bar-red    { flex: 1; background-color: #d4af37; }
+
+
+/* ==========================================================================
+   PAGE BANNER
+   ========================================================================== */
+.page-banner {
+    width: 100%;
+    height: 320px;
+    background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('IMG_4498.JPG');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner-overlay h1 {
+    font-family: 'Georgia', serif;
+    font-size: 42px;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+/* Containers de Texto Base Bege */
+.history-intro {
+    background-color: #ededde;
+    padding: 60px 10% 20px 10%;
+}
+
+.text-container-academic {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.text-container-academic p {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #2b2b2b;
+    margin-bottom: 25px;
+    text-align: justify;
+}
+
+/* ==========================================================================
+   MARQUEE EM ONDA REAL (CORREÇÃO DA ANIMAÇÃO)
+   ========================================================================== */
+.ymun-wave-section {
+    background-color: #ededde; 
+    width: 100%;
+    position: relative;
+    padding: 20px 0 60px 0;
+    overflow: hidden; /* Esconde o texto que sai da tela */
+}
+
+/* Linha fina ouro superior */
+.ymun-top-line {
+    width: 100%;
+    height: 2px;
+    background-color: #dfb14b; 
+    margin-bottom: 30px;
+}
+
+/* O container segura o SVG duplicado para o loop infinito ser perfeito */
+.ymun-wave-marquee-container {
+    display: flex;
+    width: 200%; /* Dá espaço para os dois blocos de texto */
+    animation: ymunMarqueeAnimate 30s linear infinite; /* Movimento contínuo */
+}
+
+/* O SVG agora se comporta como um bloco que desliza */
+.ymun-wave-svg {
+    width: 50%; /* Cada SVG ocupa metade do container de 200% */
+    height: 160px;
+    display: block;
+}
+
+.ymun-wave-text {
+    font-family: 'Georgia', serif;
+    font-size: 54px; 
+    fill: #dfb14b; 
+    letter-spacing: 4px;
+}
+
+/* Removemos a animação do startOffset e aplicamos o deslocamento clássico de marquee */
+@keyframes ymunMarqueeAnimate {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+    100% {
+        transform: translate3d(-50%, 0, 0); /* Move exatamente o tamanho de um SVG, criando o loop infinito */
+    }
+}
+/* ==========================================================================
+   DETALHES DA EDIÇÃO ACADÊMICA
+   ========================================================================== */
+.edition-details {
+    background-color: #ededde;
+    padding: 40px 10% 80px 10%;
+}
+
+.edition-grid-header {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.photo-frame {
+    flex: 1.2;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.edition-main-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.edition-title-block {
+    flex: 1;
+    position: relative;
+}
+
+.edition-title-block h2 {
+    font-family: 'Georgia', serif;
+    font-size: 26px;
+    color: #142947;
+    line-height: 1.3;
+}
+
+.watermark-inline {
+    width: 120px;
+    height: auto;
+    opacity: 0.12;
+    position: absolute;
+    right: 0;
+    bottom: -40px;
+}
+
+.academic-divider {
+    border: none;
+    height: 1px;
+    background-color: #950b26;
+    margin: 40px 0;
+}
+
+.secretariat-block h3 {
+    font-family: 'Georgia', serif;
+    color: #950b26;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.academic-list {
+    list-style: none;
+    margin-bottom: 35px;
+    padding-left: 15px;
+}
+
+.academic-list li {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.academic-list li::before {
+    content: "•";
+    color: #d4af37;
+    font-weight: bold;
+    font-size: 18px;
+    position: absolute;
+    left: -15px;
+    top: -3px;
+}
+
+.button-center-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.academic-action-btn {
+    display: inline-block;
+    border: 1px solid #950b26;
+    background: transparent;
+    color: #950b26;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 15px 35px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.academic-action-btn:hover {
+    background-color: #950b26;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   GALERIA CARROSSEL
+   ========================================================================== */
+.carousel-section-gallery {
+    background-color: #ededde;
+    padding: 0 10% 100px 10%;
+}
+
+.gallery-card {
+    flex: 0 0 calc(25% - 22px);
+    min-width: 250px;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.gallery-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+}
+
+/* ==========================================================================
+   CONSTRUÇÃO DA ONDA REAL DO FOOTER
+   ========================================================================== */
+.dynamic-footer {
+    position: relative;
+    background-color: #0b0c10 !important;
+    padding-top: 90px !important; 
+}
+
+.footer-wave-top {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    z-index: 2;
+}
+
+.footer-wave-top svg {
+    display: block;
+    width: 100%;
+    height: 70px;
+}
+
+.footer-color-bar {
+    height: 5px;
+    width: 100%;
+    display: flex;
+    position: absolute;
+    top: 68px; /* Assenta milimetricamente no término do corte */
+    left: 0;
+    z-index: 10;
+}
+
+.footer-color-bar .bar-green  { flex: 1; background-color: #00875a; }
+.footer-color-bar .bar-yellow { flex: 1; background-color: #f4b400; }
+.footer-color-bar .bar-blue   { flex: 1; background-color: #0057b7; }
+.footer-color-bar .bar-red    { flex: 1; background-color: #d62246; }
+
+@media (max-width: 768px) {
+    .edition-grid-header { flex-direction: column; }
+    .gallery-card { flex: 0 0 100%; }
+    .banner-overlay h1 { font-size: 28px; }
+}
+

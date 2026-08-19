@@ -1,0 +1,814 @@
+/* ==========================================================================
+   RESET BÁSICO E FONTES
+   ========================================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Georgia', 'Times New Roman', serif; /* Estética clássica e institucional */
+}
+
+body {
+    background-color: #f4f4f4;
+    padding-top: 90px; /* Compensa a altura da navbar fixa para não cobrir o topo da Hero */
+}
+
+/* ==========================================================================
+   CONFIGURAÇÃO DA FAIXA E NAVBAR FIXA (STICKY)
+   ========================================================================== */
+.top-bar {
+    height: 6px;
+    width: 100%;
+    display: flex;
+    position: fixed; /* Fixa no topo absoluto */
+    top: 0;
+    left: 0;
+    z-index: 1001;
+
+    /*a tirinha do navbar*/
+}
+.bar-green  { flex: 1; background-color: #d4af37; }
+.bar-yellow { flex: 1; background-color: #d4af37; }
+.bar-blue   { flex: 1; background-color: #d4af37; }
+.bar-red    { flex: 1; background-color: #d4af37; }
+
+.navbar {
+    background: linear-gradient(135deg, #fbeeee 0%, #ffffff 50%, #fbeeee 100%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03);
+    position: fixed;
+    top: 6px; /* Fica logo abaixo da faixa colorida */
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-brand { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    text-decoration: none; 
+}
+
+.brand-logo { 
+    width: 58px; 
+    height: auto; 
+}
+
+.brand-text h1 {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    margin-bottom: 4px;
+    color: #142947;
+}
+
+.brand-text span {
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    color: #142947;
+    border: 1.5px solid #142947;
+    background-color: rgba(42, 75, 124, 0.05);
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+/* Menu de links */
+.nav-menu { 
+    display: flex; 
+    list-style: none; 
+    gap: 30px; 
+    align-items: center; 
+}
+
+.nav-item { 
+    position: relative; 
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #142947;
+    font-size: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 5px;
+    transition: color 0.3s;
+}
+
+.nav-link::before {
+    content: "";
+    display: inline-block;
+    width: 24px;  
+    height: 3px;
+    background: linear-gradient(to right, #fbeeee 0%, #d4af37 33.33%, #d4af37 33.33%, #fbeeee 66.66%, #fbeeee 66.66%, #d4af37 100%);
+}
+/*a tirinha que fica ao lado dos topicos*/
+
+.arrow { 
+    font-size: 9px; 
+    color: #666; 
+    margin-left: 2px; 
+}
+
+/* Submenu Dropdown Desktop */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f4f7fc; 
+    min-width: 240px;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.12);
+    list-style: none;
+    display: none;
+    z-index: 1000;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+}
+
+.dropdown-menu li a {
+    color: #142947;
+    padding: 14px 20px;
+    text-decoration: none;
+    display: block;
+    font-size: 18px; 
+    font-family: 'Arial', sans-serif;
+    transition: background 0.2s;
+}
+
+.dropdown-menu li a:hover { 
+    background-color: #e6eef8; 
+}
+
+.nav-item:hover .dropdown-menu { 
+    display: block; 
+}
+
+.btn-inscricao {
+    border: 1px solid #950b26; /* Vinho oficial */
+    color: #950b26;
+    padding: 10px 20px;
+    font-size: 12px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-inscricao:hover { 
+    background-color: #950b26; 
+    color: #ffffff; 
+}
+
+/* Botão do menu móvel */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1010;
+}
+
+.menu-toggle span {
+    width: 100%;
+    height: 3px;
+    background-color: #142947;
+    transition: all 0.3s ease;
+}
+
+.desktop-only { display: flex; }
+.mobile-only { display: none; }
+
+/* ==========================================================================
+   SEÇÃO HERO
+   ========================================================================== */
+.hero-section {
+    position: relative;
+    min-height: calc(100vh - 100px); 
+    display: flex;
+    align-items: center;
+    padding: 60px 10%;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.85)), url('painelX.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efeito Parallax */
+    color: #ffffff;
+    overflow: hidden;
+}
+
+.hero-container {
+    max-width: 800px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.hero-tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: #d4af37; /* Tom dourado acadêmico */
+    font-weight: bold;
+}
+
+.hero-title {
+    font-family: 'Georgia', serif;
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -1px;
+}
+
+.hero-title em {
+    font-style: italic;
+    color: #d4af37;
+    font-family: 'Georgia', serif;
+}
+
+.hero-description {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #cccccc;
+    max-width: 600px;
+}
+
+.hero-description strong {
+    color: #ffffff;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+    margin-bottom: 40px;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: #ffffff;
+    color: #111111;
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 16px 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #d4af37;
+    color: #ffffff;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    padding: 16px 30px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    border-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.hero-footer {
+    display: flex;
+    gap: 80px;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 30px;
+    margin-top: 20px;
+}
+
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #888888;
+    font-weight: bold;
+}
+
+.footer-value {
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   1. SEÇÃO DE BOAS-VINDAS (ESTILO BEGE)
+   ========================================================================== */
+.welcome-section {
+    background-color: #ededde; 
+    padding: 80px 10%;
+}
+
+.welcome-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    gap: 60px;
+    align-items: center;
+}
+
+.welcome-text {
+    flex: 1;
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    line-height: 1.7;
+    font-size: 15px;
+}
+
+.welcome-text h2 {
+    font-family: 'Georgia', serif;
+    font-size: 26px;
+    color: #950b26; /* Vinho institucional alinhado */
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.welcome-text .highlight {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.welcome-text p { 
+    margin-bottom: 15px; 
+    text-align: justify; 
+}
+
+.welcome-signature { 
+    margin-top: 30px; 
+}
+
+.welcome-image-wrapper {
+    flex: 0 0 380px;
+    border: 1px solid #950b26; 
+    padding: 10px;
+    background: transparent;
+}
+
+.welcome-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ==========================================================================
+   2. SEÇÃO NOVIDADES (SUBSTACK / BLOG)
+   ========================================================================== */
+.blog-section {
+    background-color: #ffffff;
+    padding: 80px 10%;
+}
+
+.blog-header { 
+    text-align: center; 
+    margin-bottom: 50px; 
+}
+
+.blog-header h2 { 
+    font-family: 'Georgia', serif; 
+    font-size: 32px; 
+    color: #950b26; /* Corrigido para manter harmonia com o Vinho */
+}
+
+.blog-header p { 
+    font-family: 'Arial', sans-serif; 
+    color: #666; 
+    margin-top: 10px; 
+}
+
+.carousel-wrapper { 
+    overflow-x: auto; 
+    padding-bottom: 25px; 
+    scrollbar-width: none; /* Oculta barra cinza no Firefox */
+}
+
+.carousel-wrapper::-webkit-scrollbar {
+    display: none; /* Oculta barra cinza no Chrome, Safari e Edge */
+}
+
+.carousel-track { 
+    display: flex; 
+    gap: 30px; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+}
+
+.blog-card {
+    background: #ecf3fa;
+    border: 1px solid #c8c9cc;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.blog-card:hover { 
+    transform: translateY(-5px); 
+}
+
+.loading-text {
+    font-family: 'Arial', sans-serif;
+    color: #666;
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    padding: 40px 0;
+}
+
+#substack-feed-embed {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ==========================================================================
+   3. SEÇÃO CONECTAR / FORMULÁRIO (ESTILO VINHO PREMIUM)
+   ========================================================================== */
+.connect-section {
+    background-color: #950b26; 
+    color: #ffffff;
+    padding: 80px 10%;
+}
+
+.connect-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.connect-content-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 50px;
+}
+
+.connect-column {
+    flex: 1;
+}
+
+.connect-column h3 {
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: normal;
+}
+
+.line-decor {
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 15px 0 30px 0;
+}
+
+.vertical-divider {
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+    align-self: stretch; 
+}
+
+.link-item {
+    margin-bottom: 35px;
+}
+
+.link-item p {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: #dfbcbc;
+    margin-top: 10px;
+    line-height: 1.5;
+    max-width: 90%;
+}
+
+.outline-btn {
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 12px 24px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.outline-btn:hover {
+    background: #ffffff;
+    color: #950b26; /* Corrigido para bater com o fundo exato */
+    border-color: #ffffff;
+}
+
+.form-subtitle {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: #dfbcbc;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+.connect-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.connect-form input {
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 16px;
+    font-size: 14px;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+    outline: none;
+}
+
+.connect-form input::placeholder {
+    color: #999;
+}
+
+.form-submit-btn {
+    background: transparent;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    padding: 16px;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-submit-btn:hover {
+    background: #ffffff;
+    color: #950b26;
+}
+
+/* ==========================================================================
+   4. FOOTER PREMIUM REESTRUTURADO
+   ========================================================================== */
+.main-footer {
+    background-color: #0b0c10; /* Preto escuro profundo */
+    color: #ffffff;
+    padding: 60px 10% 30px 10%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Marca d'água sutil ao fundo */
+.main-footer::before {
+    content: "";
+    position: absolute;
+    top: -10%;
+    right: -5%;
+    width: 500px;   
+    height: 500px;
+    background-image: url('logobranca.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.08;  
+    pointer-events: none; 
+}
+
+/* Grid superior alinhado e espaçado uniformemente */
+.footer-top {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+.footer-brand { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px;
+    flex: 1;
+}
+
+.footer-logo { 
+    width: 58px; 
+    height: auto; 
+}
+
+.footer-brand-text h2 { 
+    font-family: 'Georgia', serif; 
+    font-size: 22px; 
+    letter-spacing: 0.5px; 
+}
+
+.footer-brand-text span { 
+    display: block;
+    font-size: 9px; 
+    color: #888; 
+    letter-spacing: 1.5px; 
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+.footer-info { 
+    flex: 1.5;
+    color: #aaa; 
+    font-size: 14px; 
+    line-height: 1.6; 
+}
+
+.footer-contact {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-contact h4 { 
+    font-size: 12px; 
+    color: #d4af37; /* Dourado Premium */
+    letter-spacing: 1.5px; 
+    margin-bottom: 10px; 
+}
+
+.footer-contact a { 
+    color: #ffffff; 
+    text-decoration: none; 
+    font-size: 14px; 
+    font-family: 'Arial', sans-serif;
+    transition: color 0.3s ease;
+}
+
+.footer-contact a:hover {
+    color: #d4af37;
+}
+
+/* Redes Sociais embaixo do e-mail de contato */
+.footer-socials {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.footer-socials a {
+    color: #aaa;
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.footer-socials a:hover {
+    color: #d4af37;
+    transform: translateY(-2px);
+}
+
+/* LINHA DOS DIREITOS AUTORAIS: Totalmente limpa e empurrada para baixo */
+.footer-bottom {
+    max-width: 1200px;
+    margin: 25px auto 0 auto;
+    display: flex;
+    justify-content: space-between; /* Um texto na extrema esquerda, outro na direita */
+    align-items: center;
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+}
+
+.copyright-tag {
+    font-family: 'Arial', sans-serif;
+}
+
+.edition-tag { 
+    color: #aaa; 
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+
+/* ==========================================================================
+   MEDIA QUERIES / RESPONSIVIDADE COMPACTADA
+   ========================================================================== */
+@media (max-width: 992px) {
+    .navbar { padding: 15px 20px; }
+    .desktop-only { display: none; }
+    .mobile-only { display: block; margin-top: 15px; }
+    .menu-toggle { display: flex; } 
+
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%; 
+        width: 280px;
+        height: 100vh;
+        background-color: #f4f7fc;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 100px 30px 30px 30px;
+        gap: 15px;
+        box-shadow: -4px 0px 15px rgba(0,0,0,0.1);
+        transition: right 0.4s ease;
+    }
+
+    .nav-menu.active { right: 0; }
+
+    .menu-toggle.active span:nth-child(1) { transform: translateY(9px) rotate(45deg); }
+    .menu-toggle.active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.active span:nth-child(3) { transform: translateY(-9px) rotate(-45deg); }
+
+    .nav-item:hover .dropdown-menu { display: none; } 
+    .dropdown-menu {
+        position: static;
+        display: block; 
+        box-shadow: none;
+        border: none;
+        padding-left: 20px;
+        background: transparent;
+    }
+    .dropdown-menu li a { padding: 8px 0; font-size: 14px; }
+
+    .welcome-container, .connect-container, .connect-content-grid, .footer-top { 
+        flex-direction: column; 
+        gap: 40px; 
+    }
+    
+    .vertical-divider { 
+        display: none; 
+    }
+    
+    .blog-card { 
+        flex: 0 0 calc(50% - 15px); 
+    }
+    
+    .welcome-image-wrapper { 
+        flex: 1; 
+        width: 100%; 
+    }
+    
+   .footer-top { 
+        flex-direction: column; 
+        gap: 30px; 
+    }
+    .footer-bottom { 
+        flex-direction: column; 
+        gap: 15px; 
+        text-align: center; 
+    }
+    
+    .link-item p { 
+        max-width: 100%; 
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 38px; }
+    .hero-buttons { flex-direction: column; gap: 10px; }
+    .hero-footer { flex-direction: column; gap: 20px; }
+    .blog-card { flex: 0 0 100%; }
+}

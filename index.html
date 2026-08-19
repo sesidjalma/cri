@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do SESI pro MUNDO</title>
+    <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+    <!-- Faixa colorida superior -->
+    <div class="top-bar">
+    <div class="bar-green"></div>
+    <div class="bar-yellow"></div>
+    <div class="bar-blue"></div>
+    <div class="bar-red"></div>
+</div>
+
+<nav class="navbar">
+    
+    <a href="#" class="nav-brand">
+        <img src="LOGO DOURADA CRI (1).png" alt="Logo do Clube" class="brand-logo">
+        <div class="brand-text">
+            <h1>Clube de Relações Internacionais</h1>
+            <span>Escola Sesi Djalma Pessoa</span>
+        </div>
+    </a>
+
+    <button class="menu-toggle" aria-label="Abrir Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <ul class="nav-menu">
+        <li class="nav-item">
+            <a href="#" class="nav-link">O Clube <span class="arrow">▼</span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#historia">Secretariado</a></li>
+                <li><a href="historico.html">Historia</a></li>
+                <li><a href="#estatuto">Nossa Missão</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="#" class="nav-link">Funcionamento <span class="arrow">▼</span></a>
+            <ul class="dropdown-menu">
+                <li><a href="#atividades">Atividades</a></li>
+                <li><a href="#espacos">Nossos Espaços</a></li>
+            </ul>
+        </li>
+
+        <li class="nav-item">
+            <a href="#contato" class="nav-link">Contato</a>
+        </li>
+        
+        <div class="nav-actions" style="display: flex; align-items: center; gap: 15px;">
+        <a href="#" target="_blank" class="btn-inscricao">CronoMUN</a>
+    </div>
+</nav>
+
+<script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navMenu.classList.toggle('active');
+    });
+
+    // Fecha o menu ao clicar em um link interno
+    document.querySelectorAll('.nav-link, .dropdown-menu li a').forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navMenu.classList.remove('active');
+        });
+    });
+
+    //FUNCIONA PLMDSSSS
+const SUBSTACK_USER = 'vozeverso'; 
+const RSS_URL = `https://${SUBSTACK_USER}.substack.com/feed`;
+
+// Usando o Corsproxy.io que é extremamente rápido e não guarda cache
+const PROXY_URL = `https://corsproxy.io/?${encodeURIComponent(RSS_URL)}`;
+
+async function carregarSubstack() {
+    const track = document.getElementById('substack-feed');
+    if (!track) return;
+    
+    try {
+        const response = await fetch(PROXY_URL);
+        if (!response.ok) throw new Error('Erro ao conectar ao proxy');
+        
+        const xmlText = await response.text();
+        
+        // Conversão do texto puro em XML
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(xmlText, "text/xml");
+        const items = xmlDoc.getElementsByTagName("item");
+        
+        if (!items || items.length === 0) {
+            track.innerHTML = '<p class="loading-text">Nenhuma publicação encontrada no Substack.</p>';
+            return;
+        }
+        
+        track.innerHTML = '';
+        
+        // Pega os 3 primeiros posts
+        const limite = Math.min(items.length, 3);
+        
+        for (let i = 0; i < limite; i++) {
+            const item = items[i];
+            
+            // Pega os textos de forma ultra-segura para nunca quebrar o loop
+            const title = item.getElementsByTagName("title")[0]?.textContent || "Publicação sem título";
+            const link = item.getElementsByTagName("link")[0]?.textContent || `https://${SUBSTACK_USER}.substack.com`;
+            const pubDate = item.getElementsByTagName("pubDate")[0]?.textContent || "";
+            const description = item.getElementsByTagName("description")[0]?.textContent || "";
+            
+            // Busca a imagem de forma inteligente (procurando no texto se não achar na tag)
+            let imagemPost = "";
+            const enclosure = item.getElementsByTagName("enclosure")[0];
+            if (enclosure) {
+                imagemPost = enclosure.getAttribute("url");
+            }
+            
+            // Se não achou na tag, tenta caçar um link de imagem dentro do texto do post
+            if (!imagemPost) {
+                const imgMatch = description.match(/src="([^"]+)"/);
+                if (imgMatch && imgMatch[1]) {
+                    imagemPost = imgMatch[1];
+                }
+            }
+            
+            // Imagem padrão caso o post seja 100% texto
+            if (!imagemPost) {
+                imagemPost = 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600';
+            }
+            
+            // Formata a data para o padrão do seu site (Ex: 21 JUN, 2026)
+            let dataFormatada = "NOVIDADE";
+            if (pubDate) {
+                dataFormatada = new Date(pubDate).toLocaleDateString('pt-BR', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                }).toUpperCase().replace('.', '');
+            }
+            
+            // Limpa as tags HTML do resumo e limita o tamanho do texto
+            const resumoLimpo = description ? description.replace(/<[^>]*>/g, '').trim().substring(0, 110) + '...' : '';
+            
+            // Injeta o card final estruturado no seu HTML
+            const cardHTML = `
+                <article class="blog-card" style="flex: 1; min-width: 280px; max-width: calc(33.333% - 20px);">
+                    <img src="${imagemPost}" alt="${title}" class="card-img" style="width: 100%; height: 200px; object-fit: cover;">
+                    <div class="card-content" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+                        <span class="card-date" style="font-size: 12px; font-weight: bold; color: #142947; letter-spacing: 1px;">${dataFormatada}</span>
+                        <h3 style="font-family: 'Georgia', serif; font-size: 18px; color: #802828; line-height: 1.3; margin: 0;">${title}</h3>
+                        <p style="font-size: 14px; color: #555; line-height: 1.5; margin: 0;">${resumoLimpo}</p>
+                        <a href="${link}" target="_blank" class="card-link" style="font-size: 13px; font-weight: bold; text-decoration: none; color: #2a4b7c; margin-top: auto;">Ler no Substack —</a>
+                    </div>
+                </article>
+            `;
+            
+            track.innerHTML += cardHTML;
+        }
+        
+    } catch (error) {
+        console.error('Erro na leitura do Substack:', error);
+        track.innerHTML = '<p class="loading-text">Os posts mais recentes estão disponíveis diretamente no nosso <a href="https://vozeverso.substack.com" target="_blank" style="color: #802828; font-weight: bold;">Substack</a>.</p>';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', carregarSubstack);
+          
+</script>
+
+<!-- SEÇÃO HERO PRINCIPAL -->
+<header class="hero-section">
+    <div class="hero-container">
+        
+        <!-- Pequena data/tag no topo -->
+        <p class="hero-tagline">— 01 A 03 DE SETEMBRO, 2026</p>
+        
+        <!-- Título Principal (Use a tag <em> para o efeito em itálico dourado) -->
+        <h1 class="hero-title">
+            A Comemoração dos<br>
+            nossos 10 anos <br> <em>está chegando.</em>
+        </h1>
+        
+        <!-- Parágrafo de Descrição -->
+        <p class="hero-description">
+            Uma simulação diplomática de alto nível organizada pelo <strong>CRI SESI Djalma Pessoa</strong> 
+            para estudantes prontos para debater, negociar, liderar e transformar o mundo.
+        </p>
+        
+        <!-- Botões de Ação -->
+        <div class="hero-buttons">
+            <a href="#inscricoes" class="btn-primary">Inscrições Encerradas →</a>
+            <a href="#informacoes" class="btn-secondary">Informações para Escolas e Convidados</a>
+        </div>
+        
+        <!-- Rodapé da Seção Hero (Três Colunas) -->
+        <div class="hero-footer">
+            <div class="footer-column">
+                <span class="footer-label">EDIÇÃO</span>
+                <span class="footer-value">Vol. X · 2026</span>
+            </div>
+            <div class="footer-column">
+                <span class="footer-label">CIDADE SEDE</span>
+                <span class="footer-value">Salvador · Brasil</span>
+            </div>
+            <div class="footer-column">
+                <span class="footer-label">LOCAL</span>
+                <span class="footer-value">SESI Piatã</span>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- 1. SEÇÃO CARTA DE BOAS-VINDAS (Baseada na Captura bege) -->
+<section class="welcome-section">
+    <div class="welcome-container">
+        <div class="welcome-text">
+            <h2>MENSAGEM DO SECRETARIADO E DIRETORIA</h2>
+            <p class="highlight">Bem-vindo ao Clube de Relações Internacionais (CRI) da Escola SESI Djalma Pessoa!</p>
+            <p>É com imensa honra que iniciamos as atividades do nosso clube. Este espaço foi projetado para ser um polo de simulações diplomáticas, debates acalorados 
+                e desenvolvimento de lideranças prontas para impactar o cenário global.</p>
+            <p>Nossos comitês oferecem desafios intelectuais onde estudantes assumem papéis de delegados, defendendo posicionamentos de nações e costurando soluções para crises históricas e humanitárias complexas.</p>
+            <p>Acompanhe nossos prazos e prepare-se para uma experiência acadêmica transformadora de alto nível.</p>
+            
+            <div class="welcome-signature">
+                <p>Atenciosamente,</p>
+                <strong>Secretariado CRI Piatã 2026</strong><br>
+                <span>Escola SESI Djalma Pessoa</span>
+            </div>
+        </div>
+        <div class="welcome-image-wrapper">
+            <!-- Substitua a URL abaixo pela foto oficial do Presidente ou da Diretoria -->
+            <img src="secretariado26.jpg" alt="Diretoria do Clube" class="welcome-photo">
+        </div>
+    </div>
+</section>
+
+<!-- 2. SEÇÃO CARROSSEL DE POSTS (AUTOMÁTICO E SEM CACHE) -->
+<section class="blog-section">
+    <div class="blog-header">
+        <h2>ÚLTIMAS NOVIDADES</h2>
+        <p>Acompanhe as publicações oficiais do nosso clube direto do Substack!</p>
+    </div>
+    
+    <div class="carousel-wrapper">
+        <!-- O JavaScript vai injetar os posts atualizados aqui -->
+        <div class="carousel-track" id="substack-feed">
+            <p class="loading-text">Buscando publicações mais recentes...</p>
+        </div>
+    </div>
+</section>
+
+<!-- 3. SEÇÃO FORMULÁRIO E LINKS (Baseada na Captura vinho) -->
+<section class="connect-section">
+    <div class="connect-container">
+        
+        <div class="connect-content-grid">
+            
+            <div class="connect-column saiba-mais-col">
+                <h3>SAIBA MAIS</h3>
+                <hr class="line-decor">
+                
+                <div class="link-item">
+                    <a href="sobrenos.html" class="outline-btn">SOBRE O CRI PIATÃ</a>
+                    <p>Descubra nossa missão, nossos valores acadêmicos e nosso histórico de simulações.</p>
+                </div>
+                
+                <div class="link-item">
+                    <a href="secretariado.html" class="outline-btn">NOSSA DIRETORIA</a>
+                    <p>Conheça o secretariado e os diretores de comitê desta edição.</p>
+                </div>
+                
+                <div class="link-item">
+                    <a href="mun.html" class="outline-btn">EDIÇÃO 10 ANOS</a>
+                    <p>Explore as temáticas debatidas e acesse os guias de estudos oficiais.</p>
+                </div>
+            </div>
+
+            <div class="vertical-divider"></div>
+
+            <div class="connect-column form-col">
+                <h3>FIQUE CONECTADO</h3>
+                <hr class="line-decor">
+                <p class="form-subtitle">Inscreva-se com seu e-mail para receber atualizações diretas do Clube.</p>
+                
+                <form action="https://formspree.io/f/xoqgpedz" method="POST" class="connect-form">
+                    <input type="text" name="first_name" placeholder="Nome" required>
+                    <input type="text" name="last_name" placeholder="Sobrenome" required>
+                    <input type="email" name="email" placeholder="Endereço de E-mail" required>
+                    <button type="submit" class="form-submit-btn">CADASTRAR</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- 4. FOOTER COM MARCA D'ÁGUA DA LOGO (Baseado na Captura do rodapé preto) -->
+<footer class="main-footer">
+    <div class="footer-top">
+        <div class="footer-brand">
+            <img src="LOGO DOURADA CRI (1).png" alt="CRI Piatã" class="footer-logo">
+            <div class="footer-brand-text">
+                <h2>CRI Piatã</h2>
+                <span>Clube de Relações Internacionais</span>
+            </div>
+        </div>
+
+        <div class="footer-info">
+            <p>Uma iniciativa estudantil que leva a diplomacia e a liderança global aos alunos da Rede SESI de Ensino.</p>
+        </div>
+
+        <div class="footer-contact">
+            <h4>CONTATO & REDES</h4>
+            <a href="mailto:cripiatacontato@gmail.com">cripiatacontato@gmail.com</a>
+            
+            <div class="footer-socials">
+                <a href="https://instagram.com/sesi.cri" target="_blank" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                </a>
+                <a href="https://tiktok.com/sesi.cri" target="_blank" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.6 4.17 1.12 1.26 2.7 2.01 4.35 2.11v3.93c-1.8-.02-3.53-.7-4.88-1.89-.19-.16-.36-.33-.53-.51v5.89c0 1.52-.33 3.01-1 4.34-1.29 2.5-3.81 4.14-6.62 4.22-3.14.23-6.23-1.46-7.55-4.34-1.5-3.17-.6-7.1 2.22-9.21 1.66-1.27 3.73-1.82 5.79-1.52V11.2c-1.39-.36-2.9.09-3.89 1.15-.99 1.02-1.32 2.55-.83 3.9.54 1.4 1.94 2.33 3.44 2.27 1.66-.02 3.09-1.24 3.39-2.87.05-.28.07-.56.07-.84V.02z"/></svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p class="copyright-tag">© 2026 CRI PIATÃ. TODOS OS DIREITOS RESERVADOS.</p>
+        <p class="edition-tag">ESPECIAL 10 ANOS · VOL. XX</p>
+    </div>
+</footer>
+</body>
+</html>

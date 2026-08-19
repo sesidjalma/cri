@@ -201,6 +201,53 @@ body {
 .desktop-only { display: flex; }
 .mobile-only { display: none; }
 
+/*MISS MINUTE ANIMATION*/
+/* Layout alinhado ao texto */
+.hero-description-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 750px;
+}
+
+.hero-subtext {
+  font-family: 'Georgia', serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #e0e0e0;
+  margin: 0;
+}
+
+.hero-subtext strong {
+  color: #ffffff;
+}
+
+/* Container e tamanho da imagem */
+.miss-minutes-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.miss-minutes-img {
+  width: 100px; /* Tamanho proporcional ao layout */
+  height: auto;
+  display: block;
+  /* Animação CSS aplicando o pulo suave */
+  animation: floatBounce 2.4s infinite ease-in-out;
+}
+
+/* Animação suave e sutil (sem deformar o desenho) */
+@keyframes floatBounce {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(2deg); /* Eleva e dá uma leve inclinada de vida */
+  }
+}
+
 /* ==========================================================================
    SEÇÃO HERO
    ========================================================================== */
